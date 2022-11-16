@@ -1,10 +1,11 @@
-.footer-distributed {
-	background-color: #D3F3F7;
-	width: 100%;
-	font: bold 16px sans-serif;
-	height: 10vh;
+.footer {
 	position: fixed;
+	left: 0;
 	bottom: 0;
+	width: 100%;
+	background-color: rgb(255, 255, 255);
+	color: white;
+	text-align: center;
 
   }
 

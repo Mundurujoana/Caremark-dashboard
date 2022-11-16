@@ -1,16 +1,36 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './dashboard.css';
 import Button from './Button';
 import {data} from './Data'
 
+
+
 const Dashboard = () => {
 // Example of a data array that
 // you might receive from an API
+const[value, setValue] = useState("")
+const[dataSource , setDataSource] = useState(data)
+const[tableFilter, setTableFilter] = useState([])
+
+const filterData = (e) =>{
+  if(e.target.value !=""){
+  setValue(e.target.value)
+  const filterTable = dataSource.filter(o=>Object.keys(o)
+  .some(k=>String(o[k]).toLowerCase().includes(e.target.value.toLowerCase())))
+  setTableFilter([...filterTable])
+  }else{
+    setValue(e.target.value)
+    setDataSource([...dataSource])
+  }}
 
   return (
     <div className='dashboard'>
          <div className='dash-title'>
           <h3>TB patient medication image verification </h3>
+      </div>
+         <div className="search-center">
+          <input type="text" placeholder="Search for........" value={value} onChange={filterData} />
+          {/* <button type="submit" className='submit'>Search</button> */}
       </div>
 <table>
         <tr>
@@ -22,18 +42,32 @@ const Dashboard = () => {
           <th>Images</th>
 
         </tr>
-        {data.map((val, key) => {
+        {value.length > 0 ? tableFilter.map((tabData) => {
+        
           return (
-            <tr key={key}>
-             <td>{val.No}</td>
-              <td>{val.name}</td>
-              <td>{val.gender}</td>
-              <td>{val.location}</td>
-              <td>{val.date}</td>
+            <tr>
+             <td>{tabData.No}</td>
+              <td>{tabData.name}</td>
+              <td>{tabData.gender}</td>
+              <td>{tabData.location}</td>
+              <td>{tabData.date}</td>
               <td>{<Button/>}</td>
             </tr>
           )
-        })}
+        }):
+      dataSource.map((tabData) =>{
+        return (
+          <tr>
+           <td>{tabData.No}</td>
+            <td>{tabData.name}</td>
+            <td>{tabData.gender}</td>
+            <td>{tabData.location}</td>
+            <td>{tabData.date}</td>
+            <td>{<Button/>}</td>
+          </tr>
+        )
+      })
+      }
       </table>
       {/* <p>
      Want to see more? 
